@@ -1,20 +1,25 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
+
+console.log(process.env);
 
 // Crear app de express
-
 const app = express();
 
-app.get("/", (req, res) => {
-  console.log("peticion en /");
-  res.status(404).json({
-    state: true,
-    msg: "Todo bien ",
-    id: 31.1416,
-  });
-});
+//Directorio publico
+app.use(express.static("public"));
+
+// CORS -> Software que permite interconectividad entre componentes (software)
+app.use(cors());
+
+// LEctura y parseo del body
+app.use(express.json());
+
+// Rutas
+app.use("/api/auth", require("./routes/auth"));
 
 // Levatar la app de express
-app.listen(4000, () => {
-  console.log(`Servidor corriendo en puerto ${4000}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
 });
